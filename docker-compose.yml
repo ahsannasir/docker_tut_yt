@@ -1,0 +1,30 @@
+version: '3'
+services: 
+  backend_nodejs_yt: 
+    build: ./backend
+    command: node app
+    #volumes: 
+     # - "./backend:/usr/src/app"
+    ports:
+      - "4008:4007"
+    networks:
+      - myytnetwork
+  neo4j_yt: 
+    image: neo4j:3.5
+    ports:
+      - "17475:7474"
+      - "7688:7687"
+    networks:
+      - myytnetwork
+  frontend_reactjs_yt:
+    build: ./frontend
+    ports: 
+      - "80:80"
+      - "4012:9090"
+    networks: 
+      - myytnetwork
+  
+
+networks:
+  myytnetwork:
+    driver: bridge
