@@ -23,7 +23,13 @@ services:
       - "4012:9090"
     networks: 
       - myytnetwork
-  
+  ytcache: 
+    image: memcached
+    ports:
+      - "11211:11211"
+    command: -m 64
+    networks: 
+      - myytnetwork
 
 networks:
   myytnetwork:
