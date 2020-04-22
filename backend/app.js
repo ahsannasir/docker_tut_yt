@@ -1,5 +1,6 @@
 var express = require('express');
 var cors = require('cors');
+var os = require('os');
 
 var app = express();
 const myjson = [
@@ -243,6 +244,10 @@ app.get('/', function(req, res) {
    const serverTime = {server_time: dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds()}
     res.json(serverTime);
 });
+
+app.get('/ping', function(req,res) {
+   res.json({server_name: os.hostname(), your_ip: req.connection.remoteAddress})
+})
 
 app.get('/getData', function(req, res) {
     res.json(myjson);

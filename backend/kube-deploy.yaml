@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  serviceName: backend-svc-0
+  selector:
+    matchLabels:
+      app: backend-node    
+  template:
+    metadata:
+      labels:
+        app: backend-node
+    spec:
+      containers:
+      - name: backend-node
+        image: ahsannasir/backend-yt:fixed
+        imagePullPolicy: Always
+        command: ["node", "app"]
+        ports:
+        - containerPort: 4007
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc-0
+spec:
+  selector:
+    # app: sis
+    #https://itnext.io/exposing-statefulsets-in-kubernetes-698730fb92a1
+    statefulset.kubernetes.io/pod-name: backend-0
+  ports:
+  - protocol: TCP
+    port: 4007
+    targetPort: 4007
+    nodePort: 31300
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc-1
+spec:
+  selector:
+    # app: sis
+    #https://itnext.io/exposing-statefulsets-in-kubernetes-698730fb92a1
+    statefulset.kubernetes.io/pod-name: backend-1
+  ports:
+  - protocol: TCP
+    port: 4007
+    targetPort: 4007
+    nodePort: 31301
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc-2
+spec:
+  selector:
+    # app: sis
+    #https://itnext.io/exposing-statefulsets-in-kubernetes-698730fb92a1
+    statefulset.kubernetes.io/pod-name: backend-2
+  ports:
+  - protocol: TCP
+    port: 4007
+    targetPort: 4007
+    nodePort: 31302
+  type: NodePort
